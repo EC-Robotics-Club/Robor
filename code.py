@@ -7,7 +7,7 @@
 # Device IDs
 MOTOR_ID = "6_608717510720665380"
 ARM_MOTOR_ID = "6_11972001198871247580"
-ARM_SERVO_ID = "4_5797014101737399505"
+ARM_SERVO_ID = "4_1528355177064943655"
 LINE_FOLLOWER_ID = "2_3"
 
 # Motors
@@ -45,31 +45,7 @@ ARM_SPD_DOWN = 0.2
 SCOOP_SPD = 0.07
 
 
-def autonomous_setup():
-    # Set motor inversions
-    Robot.set_value(MOTOR_ID, "invert_" + LEFT_MTR, LEFT_MTR_INVERT)
-    Robot.set_value(MOTOR_ID, "invert_" + RIGHT_MTR, RIGHT_MTR_INVERT)
 
-    # Disable motor PID
-    Robot.set_value(MOTOR_ID, "pid_enabled_" + LEFT_MTR, False)
-    Robot.set_value(MOTOR_ID, "pid_enabled_" + RIGHT_MTR, False)
-
-    # Tell PiE staff to put arm into reset position before running
-    # This line will set the position of the arm to an encoder value of 0
-    Robot.set_value(ARM_MOTOR_ID, "enc_" + ARM_MTR, 0)
-
-def autonomous_main():
-    
-     #Adjust as necessary for device IDs and such
-    if Robot.get_value(LINE_FOLLOWER_ID, "left") < 0.25:
-        Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 0.5)
-    elif Robot.get_value(LINE_FOLLOWER_ID, "left") >= 0.25:
-        Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, -0.1)
-        
-    if Robot.get_value(LINE_FOLLOWER_ID, "right") < 0.25:
-        Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 0.5)
-    elif Robot.get_value(LINE_FOLLOWER_ID, "right") >= 0.25:
-        Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, -0.1) 
 
 def arm_code():
     arm_target_pos = ARM_DOWN_POS
@@ -113,7 +89,11 @@ def teleop_setup():
     Robot.set_value(MOTOR_ID, "pid_enabled_" + LEFT_MTR, False)
     Robot.set_value(MOTOR_ID, "pid_enabled_" + RIGHT_MTR, False)
     # Robot.set_value(ARM_MOTOR_ID, "pid_enabled_" + ARM_MTR, False)
-    tilt = 1.0
+    #TILT = 1.0
+    
+    print(Robot.get_value(ARM_SERVO_ID, "servo" + LEFT_SVO))
+    print(Robot.get_value(ARM_SERVO_ID, "servo" + RIGHT_SVO))
+    
     pass
 
 def teleop_main():
@@ -137,6 +117,7 @@ def teleop_main():
             Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, -1.0)
         else:
             Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 0.0)
+            
         
         #Arm Motor Movement
         if Keyboard.get_value(ARM_UP):
@@ -145,6 +126,21 @@ def teleop_main():
             Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, ARM_SPD_DOWN * -1.0)
         else:
             Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, ARM_SPD_UP * 0.0)
+            
+        # Arm Tilting
+        # TILT = Robot.get_value(ARM_SERVO_ID, "servo" + LEFT_SVO)
+
+        if Keyboard.get_value("Space"):
+            # TILT += SCOOP_SPD
+            # Robot.set_value(ARM_SERVO_ID, "servo" + LEFT_SVO, -TILT)
+            # Robot.set_value(ARM_SERVO_ID, "servo" + RIGHT_SVO, TILT)
+            Robot.set_value(ARM_SERVO_ID, "servo" + LEFT_SVO, 1)
+            Robot.set_value(ARM_SERVO_ID, "servo" + RIGHT_SVO, -1)
+        else:
+            # TILT += 0.0
+            Robot.set_value(ARM_SERVO_ID, "servo" + LEFT_SVO, -0)
+            Robot.set_value(ARM_SERVO_ID, "servo" + RIGHT_SVO, 0)
+            
         
     # Gamepad Controls -------------------------------------------------------
     
