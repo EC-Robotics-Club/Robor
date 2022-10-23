@@ -30,6 +30,11 @@ RIGHT_MOTOR_BACKWARD = "o"
 ARM_UP = "d"
 ARM_DOWN = "k"
 
+CLAW_OPEN = "i"
+
+# Difference to claw close(bigger is larger gap)
+CLAW_GIVE = 0.1
+
 # Arm positions 
 # (NOT TESTED! You need to find positions that work based on your arm and your reference encoder value)
 ARM_UP_POS = 0
@@ -44,7 +49,19 @@ ARM_SPD_UP = 0.35
 ARM_SPD_DOWN = 0.2
 SCOOP_SPD = 0.07
 
+MAX_ARM_HEIGHT = 260
 
+
+def autonomous_setup():
+    Robot.set_value(MOTOR_ID, "pid_enabled_" + LEFT_MTR, False)
+    Robot.set_value(MOTOR_ID, "pid_enabled_" + RIGHT_MTR, False)
+    
+    
+def autonomous_main():
+    if Robot.get_value(ARM_MOTOR_ID, "enc_a") < 270:
+        Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, ARM_SPD_UP * 1.0)
+    Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, -1.0)
+    Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, -1.0)
 
 
 def arm_code():
@@ -91,9 +108,6 @@ def teleop_setup():
     # Robot.set_value(ARM_MOTOR_ID, "pid_enabled_" + ARM_MTR, False)
     #TILT = 1.0
     
-    print(Robot.get_value(ARM_SERVO_ID, "servo" + LEFT_SVO))
-    print(Robot.get_value(ARM_SERVO_ID, "servo" + RIGHT_SVO))
-    
     pass
 
 def teleop_main():
@@ -120,7 +134,7 @@ def teleop_main():
             
         
         #Arm Motor Movement
-        if Keyboard.get_value(ARM_UP):
+        if Keyboard.get_value(ARM_UP) and Robot.get_value(ARM_MOTOR_ID, "enc_a") < 270:
             Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, ARM_SPD_UP * 1.0)
         elif Keyboard.get_value(ARM_DOWN):
             Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, ARM_SPD_DOWN * -1.0)
@@ -130,16 +144,15 @@ def teleop_main():
         # Arm Tilting
         # TILT = Robot.get_value(ARM_SERVO_ID, "servo" + LEFT_SVO)
 
-        if Keyboard.get_value("Space"):
-            # TILT += SCOOP_SPD
-            # Robot.set_value(ARM_SERVO_ID, "servo" + LEFT_SVO, -TILT)
-            # Robot.set_value(ARM_SERVO_ID, "servo" + RIGHT_SVO, TILT)
-            Robot.set_value(ARM_SERVO_ID, "servo" + LEFT_SVO, 1)
-            Robot.set_value(ARM_SERVO_ID, "servo" + RIGHT_SVO, -1)
-        else:
-            # TILT += 0.0
-            Robot.set_value(ARM_SERVO_ID, "servo" + LEFT_SVO, -0)
+        if Keyboard.get_value(CLAW_OPEN):
+            Robot.set_value(ARM_SERVO_ID, "servo" + LEFT_SVO, 0)
             Robot.set_value(ARM_SERVO_ID, "servo" + RIGHT_SVO, 0)
+        elif Keyboard.get_value("f"):
+            Robot.set_value(ARM_SERVO_ID, "servo" + LEFT_SVO, -1)
+            Robot.set_value(ARM_SERVO_ID, "servo" + RIGHT_SVO, 1)
+        else:
+            Robot.set_value(ARM_SERVO_ID, "servo" + LEFT_SVO, 1 - CLAW_GIVE)
+            Robot.set_value(ARM_SERVO_ID, "servo" + RIGHT_SVO, -(1 - CLAW_GIVE))
             
         
     # Gamepad Controls -------------------------------------------------------
