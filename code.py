@@ -1,8 +1,8 @@
-# NOTE FROM PIE STAFF
-# This code has not been tested thoroughly on robots; it is meant to be guidance to help improve
-# the code you currently have. It will be tested throughout the week and will be available for you
-# to use during final competition if you are unable to get working code on your testing day.
-# (And yes, it is intentionally hard to use....)
+# TEAM 12 ROBOT CODE
+
+# BASE CODE BY PIE STAFF
+# EXTENDED AND MODIFIED FOR USE BY AJITH AND DANIEL
+
 
 # Device IDs
 MOTOR_ID = "6_3209926418129020503"
