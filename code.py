@@ -5,7 +5,7 @@
 # (And yes, it is intentionally hard to use....)
 
 # Device IDs
-MOTOR_ID = "6_608717510720665380"
+MOTOR_ID = "6_3209926418129020503"
 ARM_MOTOR_ID = "6_11972001198871247580"
 ARM_SERVO_ID = "4_1528355177064943655"
 LINE_FOLLOWER_ID = "2_3"
@@ -139,7 +139,8 @@ def teleop_main():
         elif Keyboard.get_value(ARM_DOWN):
             Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, ARM_SPD_DOWN * -1.0)
         else:
-            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, ARM_SPD_UP * 0.0)
+            # Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, ARM_SPD_UP * 0.0)
+            pass
             
         # Arm Tilting
         # TILT = Robot.get_value(ARM_SERVO_ID, "servo" + LEFT_SVO)
@@ -151,9 +152,9 @@ def teleop_main():
             Robot.set_value(ARM_SERVO_ID, "servo" + LEFT_SVO, -1)
             Robot.set_value(ARM_SERVO_ID, "servo" + RIGHT_SVO, 1)
         else:
-            Robot.set_value(ARM_SERVO_ID, "servo" + LEFT_SVO, 1 - CLAW_GIVE)
-            Robot.set_value(ARM_SERVO_ID, "servo" + RIGHT_SVO, -(1 - CLAW_GIVE))
-            
+            # Robot.set_value(ARM_SERVO_ID, "servo" + LEFT_SVO, 1 - CLAW_GIVE)
+            # Robot.set_value(ARM_SERVO_ID, "servo" + RIGHT_SVO, -(1 - CLAW_GIVE))
+            pass            
         
     # Gamepad Controls -------------------------------------------------------
     
