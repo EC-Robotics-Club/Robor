@@ -3,9 +3,8 @@
 # BASE CODE BY PIE STAFF
 # EXTENDED AND MODIFIED FOR USE BY AJITH AND DANIEL
 
-
 # Device IDs
-MOTOR_ID = "6_608717510720665380"
+MOTOR_ID = "6_3209926418129020503"
 ARM_MOTOR_ID = "6_11972001198871247580"
 ARM_SERVO_ID = "4_1528355177064943655"
 LINE_FOLLOWER_ID = "2_3"
@@ -26,6 +25,13 @@ LEFT_MOTOR_FORWARD = "q"
 LEFT_MOTOR_BACKWARD = "w"
 RIGHT_MOTOR_FORWARD = "p"
 RIGHT_MOTOR_BACKWARD = "o"
+
+FORWARD = "w"
+BACKWARD = "s"
+TURN_RIGHT = "d"
+TURN_LEFT = "a"
+
+TANK = False
 
 ARM_UP = "d"
 ARM_DOWN = "k"
@@ -107,8 +113,8 @@ def teleop_setup():
     Robot.set_value(MOTOR_ID, "pid_enabled_" + RIGHT_MTR, False)
     # Robot.set_value(ARM_MOTOR_ID, "pid_enabled_" + ARM_MTR, False)
     #TILT = 1.0
-    
-    pass
+
+    Robot.set_value(MOTOR_ID, "invert_a", True)
 
 def teleop_main():
     # Drive code
@@ -116,21 +122,45 @@ def teleop_main():
     # Keyboard Controls -------------------------------------------------------
     
     if INPUT_TYPE == "keyboard":
-        # Left Motor Movement
-        if Keyboard.get_value(LEFT_MOTOR_FORWARD):
-         Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 1.0)
-        elif Keyboard.get_value(LEFT_MOTOR_BACKWARD):
-            Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, -1.0)
+
+        if TANK:
+
+            left = 0
+            right = 0
+            if (Keyboard.get_value(LEFT_MOTOR_FORWARD)):
+                left += 1.0
+            if (Keyboard.get_value(LEFT_MOTOR_BACKWARD)):
+                left -= 1.0
+            if (Keyboard.get_value(RIGHT_MOTOR_FORWARD)):
+                right += 1.0
+            if (Keyboard.get_value(RIGHT_MOTOR_BACKWARD)):
+                right -= 1.0
+                
+            Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, left)
+            Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, right)
+            
         else:
-            Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 0.0)
-    
-        # Right Motor Movement
-        if Keyboard.get_value(RIGHT_MOTOR_FORWARD):
-            Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 1.0)
-        elif Keyboard.get_value(RIGHT_MOTOR_BACKWARD):
-            Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, -1.0)
-        else:
-            Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 0.0)
+            
+            if Keyboard.get_value(TURN_LEFT):
+                Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, -1)
+                Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 1)
+                
+            if Keyboard.get_value(TURN_RIGHT):
+                Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 1)
+                Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, -1)
+                
+            if not (Keyboard.get_value(TURN_RIGHT) or Keyboard.get_value(TURN_LEFT)):
+                
+                forward = 0
+                if Keyboard.get_value(FORWARD):
+                    forward += 1
+                if Keyboard.get_value(BACKWARD):
+                    forward -= 1
+                    
+                Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, forward)
+                Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, forward)
+        
+
             
         
         #Arm Motor Movement
