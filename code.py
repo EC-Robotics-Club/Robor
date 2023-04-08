@@ -94,19 +94,19 @@ def arm_code():
         current_pos = Robot.get_value(ARM_MOTOR_ID, "enc_" + ARM_MTR) # Retrieves current position of the arm motor
 
         # Sets motor going in the correct direction based on whether the arm is on one side or the other side of the target position
-        if current_pos < arm_target_pos:
-            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 1.0)
-        elif current_pos > arm_target_pos:
-            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, -1.0)
-        else:
-            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 0.0)
+        # if current_pos < arm_target_pos:
+        #     Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 1.0)
+        # elif current_pos > arm_target_pos:
+        #     Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, -1.0)
+        # else:
+        #     Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 0.0)
             
         
         # Improved? Arm Movement Code
         if Keyboard.get_value(ARM_UP):
-            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, ARM_SPEED * 1.0)
+            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 1.0)
         elif Keyboard.get_value(ARM_DOWN):
-            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, ARM_SPEED * -1.0)
+            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, -1.0)
 
 def teleop_setup():
     print("Teleop Mode has started!")
