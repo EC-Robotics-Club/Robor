@@ -95,9 +95,9 @@ def arm_code():
 
         # Sets motor going in the correct direction based on whether the arm is on one side or the other side of the target position
         if current_pos < arm_target_pos:
-            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, ARM_SPEED)
+            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 1.0)
         elif current_pos > arm_target_pos:
-            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, ARM_SPEED * -1.0)
+            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, -1.0)
         else:
             Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 0.0)
             
