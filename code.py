@@ -104,9 +104,11 @@ def arm_code():
         
         # Improved? Arm Movement Code
         if Keyboard.get_value(ARM_UP):
-            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 1.0)
+            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 0.1)
         elif Keyboard.get_value(ARM_DOWN):
-            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, -1.0)
+            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, -0.1)
+        else:
+            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 0.0)
 
 def teleop_setup():
     print("Teleop Mode has started!")
