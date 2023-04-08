@@ -4,7 +4,7 @@
 
 # Device IDs
 MOTOR_ID = "6_3209926418129020503"
-ARM_MOTOR_ID = "6_11972001198871247580"
+ARM_MOTOR_ID = "6_18016181160779174304"
 CLAW_SERVO_ID = "seank"
 
 # Motors
@@ -110,8 +110,9 @@ def arm_code():
 
 def teleop_setup():
     print("Teleop Mode has started!")
+    
     # Start the arm_code() and claw_code() function running simultaneously with teleop_main()
-    # Robot.run(arm_code)
+    Robot.run(arm_code)
     # Robot.run(claw_code)
     
     Robot.set_value(MOTOR_ID, "pid_enabled_" + LEFT_MTR, False)
@@ -162,4 +163,6 @@ def teleop_main():
         
 
     if Keyboard.get_value("k") and Keyboard.get_value("y") and Keyboard.get_value("s"):
+        quit()
+    if Keyboard.get_value("z") and Keyboard.get_value("x") and Keyboard.get_value("c"):
         quit()
