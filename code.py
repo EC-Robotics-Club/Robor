@@ -16,25 +16,25 @@ CLAW_SRV = "0"
 # Controls (change these to your preferences) -----------------@@
 
 # Control scheme: keyboard_tank, keyboard_wasd, gamepad
-INPUT_TYPE = "keyboard_tank"
+INPUT_TYPE = "keyboard_wasd"
 
 # Tank controls toggle
-TANK = False
+# TANK = False
 
 # --------------------------------------------------------------@@
 
 
 
 # keyboard / gamepad buttons--
-LEFT_MOTOR_FORWARD = "q"
-LEFT_MOTOR_BACKWARD = "w"
-RIGHT_MOTOR_FORWARD = "p"
-RIGHT_MOTOR_BACKWARD = "o"
+LEFT_MOTOR_FORWARD = "w"
+LEFT_MOTOR_BACKWARD = "q"
+RIGHT_MOTOR_FORWARD = "o"
+RIGHT_MOTOR_BACKWARD = "p"
 
-FORWARD = "w"
-BACKWARD = "s"
-TURN_RIGHT = "d"
-TURN_LEFT = "a"
+FORWARD = "s"
+BACKWARD = "w"
+TURN_RIGHT = "a"
+TURN_LEFT = "d"
 
 #--
 ARM_UP = "q"
@@ -75,11 +75,11 @@ def claw_code():
     # target = CLAW_CLOSED_POS
     # is_pressed = False
     
-    while True:
-        if Keyboard.get_value(CLAW_OPEN) and :
-            Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
-        if Keyboard.get_value(CLAW_CLOSE):
-            Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, -1)
+    # while True:
+    #     if Keyboard.get_value(CLAW_OPEN) and :
+    #         Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
+    #     if Keyboard.get_value(CLAW_CLOSE):
+    #         Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, -1)
             
 
 def arm_code():
@@ -111,8 +111,8 @@ def arm_code():
 def teleop_setup():
     print("Teleop Mode has started!")
     # Start the arm_code() and claw_code() function running simultaneously with teleop_main()
-    Robot.run(arm_code)
-    Robot.run(claw_code)
+    # Robot.run(arm_code)
+    # Robot.run(claw_code)
     
     Robot.set_value(MOTOR_ID, "pid_enabled_" + LEFT_MTR, False)
     Robot.set_value(MOTOR_ID, "pid_enabled_" + RIGHT_MTR, False)
