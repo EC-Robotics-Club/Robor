@@ -3,7 +3,7 @@
 # EXTENDED AND MODIFIED FOR USE BY AJITH AND DANIEL
 
 # Device IDs
-MOTOR_ID = "6_3209926418129020503"
+MOTOR_ID = "6_13086570018056326489"
 ARM_MOTOR_ID = "6_18016181160779174304"
 CLAW_SERVO_ID = "seank"
 
@@ -13,13 +13,10 @@ RIGHT_MTR = "b"
 ARM_MTR = "a"
 CLAW_SRV = "0"
 
-# Controls (change these to your preferences) -----------------@@
+# Controls (change these to your preferences) ------------------@@
 
 # Control scheme: keyboard_tank, keyboard_wasd, gamepad
 INPUT_TYPE = "keyboard_wasd"
-
-# Tank controls toggle
-# TANK = False
 
 # --------------------------------------------------------------@@
 
@@ -36,9 +33,9 @@ BACKWARD = "w"
 TURN_RIGHT = "a"
 TURN_LEFT = "d"
 
-#--
 ARM_UP = "q"
 ARM_DOWN = "e"
+#--
 
 # CLAW_TOGGLE = "SPACE"
 CLAW_OPEN = "c"
@@ -162,9 +159,3 @@ def teleop_main():
                     
             Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, forward)
             Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, forward)
-        
-
-    if Keyboard.get_value("k") and Keyboard.get_value("y") and Keyboard.get_value("s"):
-        quit()
-    if Keyboard.get_value("z") and Keyboard.get_value("x") and Keyboard.get_value("c"):
-        quit()
