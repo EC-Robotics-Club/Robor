@@ -12,11 +12,20 @@ LEFT_MTR = "a"
 RIGHT_MTR = "b"
 ARM_MTR = "a"
 CLAW_SRV = "0"
-# Controls (change these to your preferences)
 
-# Control scheme: keyboard, gamepad, gamepad_experimental
-INPUT_TYPE = "keyboard"
+# Controls (change these to your preferences) -----------------@@
 
+# Control scheme: keyboard_tank, keyboard_wasd, gamepad
+INPUT_TYPE = "keyboard_tank"
+
+# Tank controls toggle
+TANK = False
+
+# --------------------------------------------------------------@@
+
+
+
+# keyboard / gamepad buttons--
 LEFT_MOTOR_FORWARD = "q"
 LEFT_MOTOR_BACKWARD = "w"
 RIGHT_MOTOR_FORWARD = "p"
@@ -27,14 +36,14 @@ BACKWARD = "s"
 TURN_RIGHT = "d"
 TURN_LEFT = "a"
 
-TANK = False
-
+#--
 ARM_UP = "q"
 ARM_DOWN = "e"
 
-#CLAW_TOGGLE = "SPACE"
+# CLAW_TOGGLE = "SPACE"
 CLAW_OPEN = "c"
 CLAW_CLOSE = "v"
+#--
 
 # # Difference to claw close(bigger is larger gap)
 # CLAW_GIVE = 0.1
@@ -71,24 +80,6 @@ def claw_code():
             Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
         if Keyboard.get_value(CLAW_CLOSE):
             Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, -1)
-        # if Keyboard.get_value(CLAW_TOGGLE):
-        #     if not is_pressed:
-        #         target = CLAW_OPENED_POS if target == CLAW_CLOSED_POS else CLAW_CLOSED_POS
-        #         is_pressed = True
-        # else:
-        #     is_pressed = False
-        
-        # previous_pos = current_pos
-        # current_pos = Robot.get_value(CLAW_SERVO_ID, "enc_" + CLAW_SRV) 
-        
-        # if abs(current_pos - previous_pos) >= CLAW_SPEED: # if its less, that means its getting blocked and shouldnt keep moving
-
-        #     if current_pos < target:
-        #         Robot.set_value(CLAW_SERVO_ID, "velocity_" + CLAW_SRV, CLAW_SPEED)
-        #     elif current_pos > target:
-        #         Robot.set_value(CLAW_SERVO_ID, "velocity_" + CLAW_SRV, CLAW_SPEED * -1.0)
-        #     else:
-        #         Robot.set_value(CLAW_SERVO_ID, "velocity_" + CLAW_SRV, 0.0)
             
 
 def arm_code():
@@ -119,60 +110,56 @@ def arm_code():
 
 def teleop_setup():
     print("Teleop Mode has started!")
-    # Start the arm_code() function running simultaneously with teleop_main()
+    # Start the arm_code() and claw_code() function running simultaneously with teleop_main()
     Robot.run(arm_code)
     Robot.run(claw_code)
-    #arm_target_pos = ARM_DOWN_POS
+    
     Robot.set_value(MOTOR_ID, "pid_enabled_" + LEFT_MTR, False)
     Robot.set_value(MOTOR_ID, "pid_enabled_" + RIGHT_MTR, False)
-    # Robot.set_value(ARM_MOTOR_ID, "pid_enabled_" + ARM_MTR, False)
-    #TILT = 1.0
-
     Robot.set_value(MOTOR_ID, "invert_a", True)
 
 def teleop_main():
     # Drive code
     
+    
+    
     # Keyboard Controls -------------------------------------------------------
     
-    if INPUT_TYPE == "keyboard":
+    if INPUT_TYPE == "keyboard_tank":
+        left = 0
+        right = 0
+        if (Keyboard.get_value(LEFT_MOTOR_FORWARD)):
+            left += 1.0
+        if (Keyboard.get_value(LEFT_MOTOR_BACKWARD)):
+            left -= 1.0
+        if (Keyboard.get_value(RIGHT_MOTOR_FORWARD)):
+            right += 1.0
+        if (Keyboard.get_value(RIGHT_MOTOR_BACKWARD)):
+            right -= 1.0
 
-        if TANK:
-
-            left = 0
-            right = 0
-            if (Keyboard.get_value(LEFT_MOTOR_FORWARD)):
-                left += 1.0
-            if (Keyboard.get_value(LEFT_MOTOR_BACKWARD)):
-                left -= 1.0
-            if (Keyboard.get_value(RIGHT_MOTOR_FORWARD)):
-                right += 1.0
-            if (Keyboard.get_value(RIGHT_MOTOR_BACKWARD)):
-                right -= 1.0
+        Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, left)
+        Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, right)
+    
+    elif INPUT_TYPE == "keyboard_wasd": 
+        if Keyboard.get_value(TURN_LEFT):
+            Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, -1)
+            Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 1)
                 
-            Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, left)
-            Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, right)
-            
-        else:
-            
-            if Keyboard.get_value(TURN_LEFT):
-                Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, -1)
-                Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 1)
+        if Keyboard.get_value(TURN_RIGHT):
+            Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 1)
+            Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, -1)
                 
-            if Keyboard.get_value(TURN_RIGHT):
-                Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 1)
-                Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, -1)
+        if not (Keyboard.get_value(TURN_RIGHT) or Keyboard.get_value(TURN_LEFT)):
                 
-            if not (Keyboard.get_value(TURN_RIGHT) or Keyboard.get_value(TURN_LEFT)):
-                
-                forward = 0
-                if Keyboard.get_value(FORWARD):
-                    forward += 1
-                if Keyboard.get_value(BACKWARD):
-                    forward -= 1
+            forward = 0
+            if Keyboard.get_value(FORWARD):
+                forward += 1
+            if Keyboard.get_value(BACKWARD):
+                forward -= 1
                     
-                Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, forward)
-                Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, forward)
+            Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, forward)
+            Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, forward)
+        
 
     if Keyboard.get_value("k") and Keyboard.get_value("y") and Keyboard.get_value("s"):
         quit()
