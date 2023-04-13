@@ -4,8 +4,8 @@
 
 # Device IDs
 MOTOR_ID = "6_13086570018056326489"
-ARM_MOTOR_ID = "6_18016181160779174304"
-CLAW_SERVO_ID = "seank"
+ARM_MOTOR_ID = "6_250532270729745898"
+CLAW_SERVO_ID = "4_5914417668600314276"
 
 # Motors
 LEFT_MTR = "a"
@@ -28,8 +28,8 @@ LEFT_MOTOR_BACKWARD = "q"
 RIGHT_MOTOR_FORWARD = "o"
 RIGHT_MOTOR_BACKWARD = "p"
 
-FORWARD = "s"
-BACKWARD = "w"
+FORWARD = "w"
+BACKWARD = "s"
 TURN_RIGHT = "a"
 TURN_LEFT = "d"
 
@@ -43,10 +43,6 @@ CLAW_CLOSE = "v"
 #--
 
 # # Difference to claw close(bigger is larger gap)
-# CLAW_GIVE = 0.1
-# CLAW_SPEED = .5
-# CLAW_CLOSED_POS = 0
-# CLAW_OPEN_POS = 1
 
 # Arm positions 
 # (NOT TESTED! You need to find positions that work based on your arm and your reference encoder value)
@@ -58,8 +54,8 @@ LEFT_MTR_INVERT = False
 RIGHT_MTR_INVERT = True
 
 # Misc
-ARM_SPD_UP = 0.35
-ARM_SPD_DOWN = 0.2
+ARM_SPD_UP = 0.175
+ARM_SPD_DOWN = 0.05
 SCOOP_SPD = 0.07
 
 MAX_ARM_HEIGHT = 260
@@ -69,14 +65,14 @@ MAX_ARM_HEIGHT = 260
 def claw_code():
     Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
 
-    # target = CLAW_CLOSED_POS
-    # is_pressed = False
+    target = CLAW_CLOSED_POS
+    is_pressed = False
     
-    # while True:
-    #     if Keyboard.get_value(CLAW_OPEN) and :
-    #         Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
-    #     if Keyboard.get_value(CLAW_CLOSE):
-    #         Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, -1)
+    while True:
+        if Keyboard.get_value(CLAW_OPEN):
+            Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
+        if Keyboard.get_value(CLAW_CLOSE):
+            Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, -1)
             
 
 def arm_code():
