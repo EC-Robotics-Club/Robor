@@ -5,7 +5,7 @@
 # Device IDs
 MOTOR_ID = "6_13086570018056326489"
 ARM_MOTOR_ID = "6_250532270729745898"
-CLAW_SERVO_ID = "4_5914417668600314276"
+CLAW_SERVO_ID = "4_10985543991447918900"
 
 # Motors
 LEFT_MTR = "a"
@@ -65,7 +65,7 @@ MAX_ARM_HEIGHT = 260
 def claw_code():
     Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
 
-    target = CLAW_CLOSED_POS
+    # target = CLAW_CLOSED_POS
     is_pressed = False
     
     while True:
@@ -108,7 +108,7 @@ def teleop_setup():
     
     # Start the arm_code() and claw_code() function running simultaneously with teleop_main()
     Robot.run(arm_code)
-    # Robot.run(claw_code)
+    Robot.run(claw_code)
     
     Robot.set_value(MOTOR_ID, "pid_enabled_" + LEFT_MTR, False)
     Robot.set_value(MOTOR_ID, "pid_enabled_" + RIGHT_MTR, False)
