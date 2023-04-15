@@ -70,10 +70,8 @@ def claw_code():
     
     while True:
         if Keyboard.get_value(CLAW_OPEN):
-            print("open")
             Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
         elif Keyboard.get_value(CLAW_CLOSE):
-            print("close")
             Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, -1)
     
         # else:
