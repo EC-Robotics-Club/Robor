@@ -1,7 +1,7 @@
 # TEAM 12 ROBOT CODE
 #completely self made, trust no cap
 # EXTENDED AND MODIFIED FOR USE BY AJITH AND DANIEL
-
+import time
 # Device IDs
 MOTOR_ID = "6_13086570018056326489"
 ARM_MOTOR_ID = "6_250532270729745898"
@@ -105,6 +105,20 @@ def arm_code():
             Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, -0.1)
         else:
             Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 0.0)
+
+def autonomous_setup():
+    print("Autonomous up")
+    Robot.set_value(MOTOR_ID, "pid_enabled_" + LEFT_MTR, False)
+    Robot.set_value(MOTOR_ID, "pid_enabled_" + RIGHT_MTR, False)
+    Robot.set_value(MOTOR_ID, "invert_a", True)
+
+def autonomous_main():
+    starttime = time.time()
+    while time.time() - starttime < 3000:
+        Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 1)
+        Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 1)
+    Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 0)
+    Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 0)
 
 def teleop_setup():
     print("Teleop Mode has started!")
