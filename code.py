@@ -2,10 +2,11 @@
 #completely self made, trust no cap
 # EXTENDED AND MODIFIED FOR USE BY AJITH AND DANIEL
 import time
+
 # Device IDs
 MOTOR_ID = "6_13086570018056326489"
 ARM_MOTOR_ID = "6_250532270729745898"
-CLAW_SERVO_ID = "4_10985543991447918900"
+CLAW_SERVO_ID = "4_161219043144571378"
 
 # Motors
 LEFT_MTR = "a"
@@ -35,6 +36,7 @@ TURN_LEFT = "d"
 
 ARM_UP = "q"
 ARM_DOWN = "e"
+ARM_STILL = "0"
 #--
 
 # CLAW_TOGGLE = "SPACE"
@@ -76,7 +78,7 @@ def claw_code():
     
         # else:
             # Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
-            
+        
 
 def arm_code():
     arm_target_pos = ARM_DOWN_POS
@@ -98,7 +100,7 @@ def arm_code():
         #     Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 0.0)
             
         
-        # Improved? Arm Movement Code
+        # Improved? Arm Movement Code :)
         if Keyboard.get_value(ARM_UP):
             Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 0.1)
         elif Keyboard.get_value(ARM_DOWN):
@@ -114,11 +116,12 @@ def autonomous_setup():
 
 def autonomous_main():
     starttime = time.time()
-    while time.time() - starttime < 3000:
-        Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 1)
-        Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 1)
-    Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 0)
-    Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 0)
+    while time.time() - starttime < 3.65:
+        Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 0.85)
+        Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 0.72)
+    while time.time() - starttime > 3.65:
+        Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 0)
+        Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 0)
 
 def teleop_setup():
     print("Teleop Mode has started!")
