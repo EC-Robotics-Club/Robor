@@ -1,12 +1,12 @@
 # TEAM 12 ROBOT CODE
 #completely self made, trust no cap
-# EXTENDED AND MODIFIED FOR USE BY AJITH AND DANIEL
+# EXTENDED AND MODIFIED FOR USE BY Byron, Nigel, and Abe
 import time
 
 # Device IDs
 MOTOR_ID = "6_13086570018056326489"
 ARM_MOTOR_ID = "6_250532270729745898"
-CLAW_SERVO_ID = "4_161219043144571378"
+# CLAW_SERVO_ID = "4_161219043144571378"
 
 # Motors
 LEFT_MTR = "a"
@@ -40,8 +40,8 @@ ARM_STILL = "0"
 #--
 
 # CLAW_TOGGLE = "SPACE"
-CLAW_OPEN = "c"
-CLAW_CLOSE = "v"
+# CLAW_OPEN = "c"
+# CLAW_CLOSE = "v"
 #--
 
 # # Difference to claw close(bigger is larger gap)
@@ -64,17 +64,17 @@ MAX_ARM_HEIGHT = 260
 
 
 
-def claw_code():
-    Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
+# def claw_code():
+#     Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
 
-    # target = CLAW_CLOSED_POS
-    is_pressed = False
+#     # target = CLAW_CLOSED_POS
+#     is_pressed = False
     
-    while True:
-        if Keyboard.get_value(CLAW_OPEN):
-            Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
-        elif Keyboard.get_value(CLAW_CLOSE):
-            Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, -1)
+#     while True:
+#         if Keyboard.get_value(CLAW_OPEN):
+#             Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
+#         elif Keyboard.get_value(CLAW_CLOSE):
+#             Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, -1)
     
         # else:
             # Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SRV, 0)
@@ -117,8 +117,8 @@ def autonomous_setup():
 def autonomous_main():
     starttime = time.time()
     while time.time() - starttime < 3.65:
-        Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 0.80)
-        Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 0.67)
+        Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 0.70)
+        Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 0.57)
     while time.time() - starttime > 3.65 and time.time() - starttime < 4.15:
         Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 0)
         Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 1)
@@ -131,7 +131,7 @@ def teleop_setup():
     
     # Start the arm_code() and claw_code() function running simultaneously with teleop_main()
     Robot.run(arm_code)
-    Robot.run(claw_code)
+    # Robot.run(claw_code)
     
     Robot.set_value(MOTOR_ID, "pid_enabled_" + LEFT_MTR, False)
     Robot.set_value(MOTOR_ID, "pid_enabled_" + RIGHT_MTR, False)
