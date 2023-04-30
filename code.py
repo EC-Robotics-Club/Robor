@@ -117,9 +117,12 @@ def autonomous_setup():
 def autonomous_main():
     starttime = time.time()
     while time.time() - starttime < 3.65:
-        Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 0.85)
-        Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 0.72)
-    while time.time() - starttime > 3.65:
+        Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 0.80)
+        Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 0.67)
+    while time.time() - starttime > 3.65 and time.time() - starttime < 4.15:
+        Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 0)
+        Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 1)
+    while time.time() - starttime > 4.15:
         Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 0)
         Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 0)
 
