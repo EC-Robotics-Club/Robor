@@ -1,4 +1,5 @@
-# TEAM 12 ROBOT CODE
+
+TEAM 12 ROBOT CODE
 #completely self made, trust no cap
 # EXTENDED AND MODIFIED FOR USE BY Byron, Nigel, and Abe
 import time
