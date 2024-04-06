@@ -8,9 +8,11 @@ import time
 MOTOR_ID = "N/A"
 ARM_MOTOR_ID = "N/A"
 
-# Motors
-LEFT_MTR = "a"
-RIGHT_MTR = "b"
+# Motors // These motors could be wrong. Since we have 3 motors now (our robot doesn't have 3 motors attached rn)
+ADJACENT_MTR = "a"
+OPPOSITE_MTR = "b"
+HYP_MTR = "c"
+
 ARM_MTR = "a"
 #CLAW_SRV = "0"
 
@@ -47,6 +49,7 @@ def arm_code():
             Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 0.0)
 
 def autonomous_setup():
+    #Autonomous Not Altered
     print("Autonomous up")
     Robot.set_value(MOTOR_ID, "pid_enabled_" + LEFT_MTR, False)
     Robot.set_value(MOTOR_ID, "pid_enabled_" + RIGHT_MTR, False)
@@ -77,6 +80,7 @@ def teleop_setup():
 
 # Drive code
 def teleop_main():
+    #we should just remove tank controls tbh, no one's going to use it anyways
     if INPUT_TYPE == "keyboard_tank":
         left = 0
         right = 0
@@ -93,13 +97,15 @@ def teleop_main():
         Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, right)
     
     elif INPUT_TYPE == "keyboard_wasd": 
+        #Adjacent motor is the motor that is adjacent to the angel that is next to the usb power strip
         if Keyboard.get_value(TURN_LEFT):
-            Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, -1)
-            Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, 1)
+            Robot.set_value(MOTOR_ID, "velocity_" + OPPOSITE_MTR, 1)
+            Robot.set_value(MOTOR_ID, "velocity_" + HYP_MTR, 1)
+        
                 
         if Keyboard.get_value(TURN_RIGHT):
-            Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, 1)
-            Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, -1)
+            Robot.set_value(MOTOR_ID, "velocity_" + OPPOSITE_MTR, 1)
+            Robot.set_value(MOTOR_ID, "velocity_" + HYP_MTR, -1)
                 
         if not (Keyboard.get_value(TURN_RIGHT) or Keyboard.get_value(TURN_LEFT)):
                 
@@ -109,8 +115,7 @@ def teleop_main():
             if Keyboard.get_value(BACKWARD):
                 forward -= 1
                     
-            Robot.set_value(MOTOR_ID, "velocity_" + LEFT_MTR, forward)
-            Robot.set_value(MOTOR_ID, "velocity_" + RIGHT_MTR, forward)
+            Robot.set_value(MOTOR_ID, "velocity_" + OPPOSITE_MTR, forward)
 
 # ARM_SPD_UP = 0.175
 # ARM_SPD_DOWN = 0.05
