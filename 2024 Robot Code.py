@@ -9,7 +9,7 @@ LEG_MOTOR_ID = "6_13044163168695452367"
 ADJACENT_MTR = "a"
 OPPOSITE_MTR = "b"
 
-HYP_MOTOR_ID = "N/A"
+HYP_MOTOR_ID = "6_6734390308560666799"
 HYP_MTR = "a"
 
 ARM_MOTOR_ID = "N/A"
@@ -35,6 +35,9 @@ BACKWARD = "s"
 TURN_RIGHT = "d"
 TURN_LEFT = "a"
 
+STRAFE_LEFT = "o"
+STRAFE_RIGHT = "p"
+
 ARM_UP = "q"
 ARM_DOWN = "e"
 
@@ -43,7 +46,7 @@ ARM_DOWN = "e"
 def motor_setup():
     Robot.set_value(LEG_MOTOR_ID, "pid_enabled_" + OPPOSITE_MTR, False)
     Robot.set_value(LEG_MOTOR_ID, "pid_enabled_" + ADJACENT_MTR, False)
-    # Robot.set_value(HYP_MOTOR_ID, "pid_enabled_" + HYP_MTR, False)
+    Robot.set_value(HYP_MOTOR_ID, "pid_enabled_" + HYP_MTR, False)
 
 def arm_code():
     while True:
@@ -89,17 +92,30 @@ def teleop_main():
         if Keyboard.get_value(TURN_RIGHT):
             turn += 1
 
-        Robot.set_value(LEG_MOTOR_ID, "velocity_" + OPPOSITE_MTR, turn)
-        Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR, turn)
-        # Robot.set_value(HYP_MOTOR_ID, "velocity_" + HYP_MTR, turn)
+        forward = 0
+        if Keyboard.get_value(FORWARD):
+            forward += 1
+        if Keyboard.get_value(BACKWARD):
+            forward -= 1
+
+        strafe = 0
+        if Keyboard.get_value(STRAFE_LEFT):
+            strafe -= 1
+        if Keyboard.get_value(STRAFE_RIGHT):
+            strafe += 1
+
+        if forward == 0 and strafe == 0:
+
+            Robot.set_value(LEG_MOTOR_ID, "velocity_" + OPPOSITE_MTR, turn)
+            Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR, turn)
+            Robot.set_value(HYP_MOTOR_ID, "velocity_" + HYP_MTR, turn)
                 
-        if turn == 0:
-                
-            forward = 0
-            if Keyboard.get_value(FORWARD):
-                forward += 1
-            if Keyboard.get_value(BACKWARD):
-                forward -= 1
+        if turn == 0 and strafe == 0:
                     
             Robot.set_value(LEG_MOTOR_ID, "velocity_" + OPPOSITE_MTR, forward)
             Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR, forward * -1)
+
+        if forward == 0 and turn == 0:
+
+            Robot.set_value(HYP_MOTOR_ID, "velocity_" + HYP_MTR, strafe)
+            Robot.set_value(LEG_MOTOR_ID, "velocity_" + (ADJACENT_MTR if strafe == 1 else OPPOSITE_MTR), strafe * -0.5)
