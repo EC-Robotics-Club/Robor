@@ -9,7 +9,7 @@ LEG_MOTOR_ID = "6_13044163168695452367"
 ADJACENT_MTR = "a"
 OPPOSITE_MTR = "b"
 
-HYP_MOTOR_ID = "6_6734390308560666799"
+HYP_MOTOR_ID = "6_7190284582464944900"
 HYP_MTR = "a"
 
 ARM_MOTOR_ID = "N/A"
@@ -47,6 +47,7 @@ def motor_setup():
     Robot.set_value(LEG_MOTOR_ID, "pid_enabled_" + OPPOSITE_MTR, False)
     Robot.set_value(LEG_MOTOR_ID, "pid_enabled_" + ADJACENT_MTR, False)
     Robot.set_value(HYP_MOTOR_ID, "pid_enabled_" + HYP_MTR, False)
+    Robot.set_value(HYP_MOTOR_ID, "invert_" + HYP_MTR, True);
 
 def arm_code():
     while True:
@@ -118,4 +119,6 @@ def teleop_main():
         if forward == 0 and turn == 0:
 
             Robot.set_value(HYP_MOTOR_ID, "velocity_" + HYP_MTR, strafe)
-            Robot.set_value(LEG_MOTOR_ID, "velocity_" + (ADJACENT_MTR if strafe == 1 else OPPOSITE_MTR), strafe * -0.5)
+            Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR, strafe * -0.5)
+            Robot.set_value(LEG_MOTOR_ID, "velocity_" + OPPOSITE_MTR, strafe * -0.5)
+            
