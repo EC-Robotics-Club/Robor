@@ -11,9 +11,10 @@ OPPOSITE_MTR = "b"
 
 HYP_MOTOR_ID = "6_7190284582464944900"
 HYP_MTR = "a"
+ARM_MTR = "b" # uses same motor controller as hyp wheel
 
-ARM_MOTOR_ID = "N/A"
-ARM_MTR = "a"
+# ARM_MOTOR_ID = "N/A"
+# ARM_MTR = "a"
 
 # O |\ H
 #   |_\
@@ -47,17 +48,7 @@ def motor_setup():
     Robot.set_value(LEG_MOTOR_ID, "pid_enabled_" + OPPOSITE_MTR, False)
     Robot.set_value(LEG_MOTOR_ID, "pid_enabled_" + ADJACENT_MTR, False)
     Robot.set_value(HYP_MOTOR_ID, "pid_enabled_" + HYP_MTR, False)
-    Robot.set_value(HYP_MOTOR_ID, "invert_" + HYP_MTR, True);
-
-def arm_code():
-    while True:
-        # Improved? Arm Movement Code :)
-        if Keyboard.get_value(ARM_UP):
-            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 0.1)
-        elif Keyboard.get_value(ARM_DOWN):
-            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, -0.1)
-        else:
-            Robot.set_value(ARM_MOTOR_ID, "velocity_" + ARM_MTR, 0.0)
+    Robot.set_value(HYP_MOTOR_ID, "invert_" + HYP_MTR, True)
 
 def autonomous_setup():
     #Autonomous Not Altered
@@ -86,6 +77,14 @@ def teleop_setup():
 
 # Drive code
 def teleop_main():
+    armMove = 0
+    if Keyboard.get_value(ARM_UP):
+        armMove += 1
+    if Keyboard.get_value(ARM_DOWN):
+        armMove -= 1
+    
+    Robot.set_value(HYP_MOTOR_ID, "velocity_" + ARM_MTR, armMove)
+
     if INPUT_TYPE == "keyboard_wasd": 
         turn = 0
         if Keyboard.get_value(TURN_LEFT):
