@@ -50,19 +50,13 @@ CLAW_CLOSE = "l"
 # --------------------------------------------------------------@@
 
 def claw_code():
-    Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SERVO, 0)
+    if Keyboard.get_value(CLAW_OPEN):
+        Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SERVO, 1)
+    elif Keyboard.get_value(CLAW_CLOSE):
+        Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SERVO, -1)
 
-    # target = CLAW_CLOSED_POS
-    # is_pressed = False
-    
-    while True:
-        if Keyboard.get_value(CLAW_OPEN):
-            Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SERVO, 0)
-        elif Keyboard.get_value(CLAW_CLOSE):
-            Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SERVO, -1)
-    
-        else:
-            Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SERVO, 0)
+    else:
+        Robot.set_value(CLAW_SERVO_ID, "servo" + CLAW_SERVO, 0)
 
 
 
@@ -80,7 +74,8 @@ def autonomous_setup():
 def autonomous_main():
     starttime = time.time()
     while time.time() - starttime < 3.65:
-        pass
+        Robot.set_value(LEG_MOTOR_ID, "velocity_" + OPPOSITE_MTR, 0.5)
+        Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR, -1)
     while time.time() - starttime > 3.65 and time.time() - starttime < 4.15:
         pass
     while time.time() - starttime > 4.15:
@@ -99,6 +94,7 @@ def teleop_setup():
 
 # Drive code
 def teleop_main():
+    claw_code()
     armMove = 0
     if Keyboard.get_value(ARM_UP):
         armMove += 1
@@ -128,9 +124,9 @@ def teleop_main():
 
         if forward == 0 and strafe == 0:
 
-            Robot.set_value(LEG_MOTOR_ID, "velocity_" + OPPOSITE_MTR, turn)
-            Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR, turn)
-            Robot.set_value(HYP_MOTOR_ID, "velocity_" + HYP_MTR, turn)
+            Robot.set_value(LEG_MOTOR_ID, "velocity_" + OPPOSITE_MTR, turn * 0.5)
+            Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR, turn * 0.5)
+            Robot.set_value(HYP_MOTOR_ID, "velocity_" + HYP_MTR, turn * 0.5)
                 
         if turn == 0 and strafe == 0:
                     
