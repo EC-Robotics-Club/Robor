@@ -34,6 +34,8 @@ FORWARD = "w"
 BACKWARD = "s"
 TURN_RIGHT = "d"
 TURN_LEFT = "a"
+STRAFE_RIGHT = "p"
+STRAFE_LEFT = "o"
 
 ARM_UP = "q"
 ARM_DOWN = "e"
@@ -43,7 +45,7 @@ ARM_DOWN = "e"
 def motor_setup():
     Robot.set_value(LEG_MOTOR_ID, "pid_enabled_" + OPPOSITE_MTR, False)
     Robot.set_value(LEG_MOTOR_ID, "pid_enabled_" + ADJACENT_MTR, False)
-    # Robot.set_value(HYP_MOTOR_ID, "pid_enabled_" + HYP_MTR, False)
+    Robot.set_value(HYP_MOTOR_ID, "pid_enabled_" + HYP_MTR, False)
 
 def arm_code():
     while True:
@@ -91,7 +93,7 @@ def teleop_main():
 
         Robot.set_value(LEG_MOTOR_ID, "velocity_" + OPPOSITE_MTR, turn)
         Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR, turn)
-        # Robot.set_value(HYP_MOTOR_ID, "velocity_" + HYP_MTR, turn)
+        Robot.set_value(HYP_MOTOR_ID, "velocity_" + HYP_MTR, turn)
                 
         if turn == 0:
                 
@@ -103,3 +105,13 @@ def teleop_main():
                     
             Robot.set_value(LEG_MOTOR_ID, "velocity_" + OPPOSITE_MTR, forward)
             Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR, forward * -1)
+
+        if forward == 0:
+            
+            strafe = 0
+            if Keyboard.get_value(STRAFE_RIGHT):
+                strafe += 1
+            if Keyboard.get_value(STRAFE_LEFT):
+                strafe -= 1
+            Robot.set_value(HYP_MOTOR_ID, "velocity_" + HYP_MTR, strafe)
+            # Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR if strafe == 1 else OPPOSITE_MTR, strafe * -1)
