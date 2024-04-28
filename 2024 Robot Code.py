@@ -74,14 +74,15 @@ def autonomous_setup():
 def autonomous_main():
     starttime = time.time()
     while time.time() - starttime < 3.65:
-        Robot.set_value(LEG_MOTOR_ID, "velocity_" + OPPOSITE_MTR, 0.5)
-        Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR, -1)
+        Robot.set_value(LEG_MOTOR_ID, "velocity_" + OPPOSITE_MTR, 0.3)
+        Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR, -0.37)
     while time.time() - starttime > 3.65 and time.time() - starttime < 4.15:
         pass
     while time.time() - starttime > 4.15:
-        Robot.set_value(LEG_MOTOR_ID, "velocity_" + OPPOSITE_MTR, 0)
-        Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR, 0)
-        Robot.set_value(HYP_MOTOR_ID, "velocity_" + HYP_MTR, 0)
+        pass
+        # Robot.set_value(LEG_MOTOR_ID, "velocity_" + OPPOSITE_MTR, 0)
+        # Robot.set_value(LEG_MOTOR_ID, "velocity_" + ADJACENT_MTR, 0)
+        # Robot.set_value(HYP_MOTOR_ID, "velocity_" + HYP_MTR, 0)
 
 def teleop_setup():
     print("Teleop Mode has started!")
