@@ -41,17 +41,13 @@ def autonomous():
 
 def teleop():
     while(True):
-        Robot.set_value(LMOTOR_ID, "pid_enabled_a", True)
-        Robot.set_value(RMOTOR_ID, "pid_enabled_a", True)
-        Robot.set_value(LMOTOR_ID, "pid_enabled_b", True)
-        Robot.set_value(RMOTOR_ID, "pid_enabled_b", True)
         Robot.set_value(LMOTOR_ID, "invert_a", False)
         Robot.set_value(RMOTOR_ID, "invert_a", True)
         Robot.set_value(LMOTOR_ID, "invert_b", False)
         Robot.set_value(RMOTOR_ID, "invert_b", False)
         left = 0
         right = 0
-        Robot.set_value(RMOTOR_ID, "velocity_b", 0.0)
+        
         if (Keyboard.get_value(FORWARD)):
             right += 1.0
             left += 1.0
@@ -64,6 +60,7 @@ def teleop():
         if (Keyboard.get_value(TURN_LEFT)):
             right = 1.0
             left = -1.0
+        Robot.set_value(RMOTOR_ID, "velocity_b", 0.0)
         if (Keyboard.get_value(DOOR_LEFT)):
             Robot.set_value(RMOTOR_ID, "velocity_b", -1.0)
         if (Keyboard.get_value(DOOR_RIGHT)):
