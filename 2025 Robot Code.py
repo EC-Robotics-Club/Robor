@@ -34,10 +34,14 @@ def autonomous():
     Robot.set_value(RMOTOR_ID, "invert_a", True)
     Robot.set_value(LMOTOR_ID, "invert_b", False)
     Robot.set_value(RMOTOR_ID, "invert_b", False)
-    Robot.set_value(RMOTOR_ID, "velocity_a", 1)
-    Robot.set_value(LMOTOR_ID, "velocity_b", 1)
-    Robot.set_value(RMOTOR_ID, "velocity_b", 0)
-    Robot.set_value(LMOTOR_ID, "velocity_a", 0)
+    starttime = time.time()
+    while time.time() - starttime < 1.7:
+        Robot.set_value(LMOTOR_ID, "velocity_b", .7)
+        Robot.set_value(RMOTOR_ID, "velocity_a",  1)
+    Robot.set_value(LMOTOR_ID, "velocity_b", 0)
+    Robot.set_value(RMOTOR_ID, "velocity_a",  0)
+
+
 
 def teleop():
     while(True):
@@ -50,9 +54,9 @@ def teleop():
         
         if (Keyboard.get_value(FORWARD)):
             right += 1.0
-            left += 1.0
+            left += .7
         if (Keyboard.get_value(BACKWARD)):
-            left -= 1.0
+            left -= .7
             right -= 1.0
         if (Keyboard.get_value(TURN_RIGHT)):
             right = -1.0
@@ -60,10 +64,16 @@ def teleop():
         if (Keyboard.get_value(TURN_LEFT)):
             right = 1.0
             left = -1.0
-        Robot.set_value(RMOTOR_ID, "velocity_b", 0.0)
         if (Keyboard.get_value(DOOR_LEFT)):
-            Robot.set_value(RMOTOR_ID, "velocity_b", -1.0)
-        if (Keyboard.get_value(DOOR_RIGHT)):
-            Robot.set_value(RMOTOR_ID, "velocity_b", 1.0)
+            Robot.set_value(RMOTOR_ID, "velocity_b", -0.5)
+        elif (Keyboard.get_value(DOOR_RIGHT)):
+            Robot.set_value(RMOTOR_ID, "velocity_b", 0.5)
+        else:
+            Robot.set_value(RMOTOR_ID, "velocity_b", 0.0)
         Robot.set_value(LMOTOR_ID, "velocity_b", left)
         Robot.set_value(RMOTOR_ID, "velocity_a", right)
+        
+        
+        
+        
+        
